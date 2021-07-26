@@ -1,37 +1,39 @@
+from tkinter import ttk
 from tkinter import *
-import tkinter
-import md5
-from tkinter import tkMessageBox
+from tkinter import messagebox
+#from tkMessageBox import *
+import sqlite3
 
 ventana = Tk()
-ventana.title("----------Login Master v0.1-------------")
-ventana.geometry("320x80+500+250")
-ventana.resizable(width="FALSE",height="FALSE")
-Label(ventana,text="User").pack()
-caja = Entry(ventana)
-caja.pack()
-s = StringVar()
-margen = 0
-def codificar(x):
- f = md5.new()
- f.update(x)
- return f.hexdigest()
-Label(ventana,textvar=s).pack()
-def logear():
- a=caja.get()
- if a == "":
-  showerror(title="Error",message="Inserte texto en el campo")
+ventana.title ("------- Login Python Diario -------")
+ventana.geometry ("350x150+500+250")
+Label(ventana, text = "Usuario:").pack()
+caja1 = Entry(ventana)
+caja1.pack()
+
+Label(ventana, text = "Contraseña:").pack()
+caja2 = Entry(ventana, show = "*")
+caja2.pack()
+
+def login():
+ # Connect to database
+ db = sqlite3.connect('database.db')
+ c = db.cursor()
+ 
+ usuario = caja1.get()
+ contr = caja2.get()
+ 
+ c.execute('SELECT * FROM usuarios WHERE usuario = ? AND pass = ?', (usuario, contr))
+
+ if c.fetchall():
+  showinfo(title = "Login correcto", message = "Usuario y contraseña correctos")
  else:
-  logear2()
-def logear2():
- a=caja.get()
- m=codificar(a)
- if m == "b8f002559f4cfc740db2de36535cac6b":
-  s = "Logeo completado, Bienvenido "+ a + " :)"
-  showinfo(title="Bien",message=s)
- else:
-  showerror(title="Mal",message="ERROR DE LOGEO")
-Button(ventana,text="Logear",command=logear).pack()
+  showerror(title = "Login incorrecto", message = "Usuario o contraseña incorrecta")
+  
+ c.close()
+
+Button (text = "Login", command = login).pack()
+
 
 ventana.mainloop()
   

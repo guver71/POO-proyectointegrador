@@ -48,7 +48,7 @@ class Registro:
         Label(self.new_ventana, text = 'Precio:').grid(row = 3, column = 1)
         precio= Entry(self.new_ventana)
         precio.grid(row = 3, column = 2)
-        Button(self.new_ventana, text = 'Guardar Registro', command = lambda: self.save_registro(producto.get(),  talla.get(), color.get(), precio.get())).grid(row = 5, column = 2, sticky = W+E)
+        Button(self.new_ventana, text = 'Guardar Registro', command = lambda: self.save_registro(producto.get(),  talla.get(), color.get(), precio.get())).grid(row = 5, column = 2, sticky = W)
 
         self.new_ventana.mainloop()
 
@@ -76,7 +76,7 @@ class Registro:
         query = 'SELECT * FROM registro'
         rows = self.query(query)
         for row in rows:
-            self.table.insert(parent='', index=row[0], iid=row[0], text=row[0], values=(row[1], row[2], row[3])) 
+            self.table.insert(parent='', index=row[0], iid=row[0], text=row[0], values=(row[1], row[2], row[3], row[4])) 
 
     def close(self):
         self.ventana.destroy()
